@@ -20,7 +20,7 @@ export const authApi = createApi({
 				method: "POST",
 			}),
 		}),
-		isAuh: builder.query<void, boolean>({
+		isAuh: builder.query<boolean, void>({
 			query: () => ({
 				url: "/",
 				method: "GET",
