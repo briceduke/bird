@@ -2,6 +2,7 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import moment from 'moment';
 import { NextPage } from 'next';
 import Router from 'next/router';
+import { useState } from 'react';
 
 import { useAppDispatch } from '../app/hooks';
 import { useLoginMutation } from '../features/auth/authApi';
@@ -16,8 +17,10 @@ const RegisterPage: NextPage = () => {
 
 	const dispatch = useAppDispatch();
 
+	const [page, setPage] = useState(0);
+
 	return (
-		<div>
+		<div className='w-screen h-screen flex items-center justify-center'>
 			<Formik
 				initialValues={{
 					username: "",
@@ -70,10 +73,11 @@ const RegisterPage: NextPage = () => {
 				}}
 			>
 				{({ isSubmitting, errors, touched }) => (
-					<Form className="w-1/6 h-1/3 flex justify-evenly items-center flex-col">
-						<h1 className="text-4xl">Register</h1>
-
-						<div className="w-full">
+					<Form className="w-1/5 h-1/2 flex justify-evenly items-center flex-col">
+						{page === 0 && (
+							<>
+							<h1 className="text-4xl">let's create your account</h1>
+								<div className="w-full">
 							<Field
 								type="text"
 								name="username"
@@ -96,8 +100,13 @@ const RegisterPage: NextPage = () => {
 								<div className="text-error">{errors.password}</div>
 							)}
 						</div>
+							</>
+						)}
 
-						<div className="w-full">
+						{page === 1 && (
+							<>
+							<h1 className="text-4xl">great! now create your profile</h1>
+							<div className="w-full">
 							<Field
 								type="text"
 								name="displayName"
@@ -168,14 +177,18 @@ const RegisterPage: NextPage = () => {
 								<div className="text-error">{errors.birth}</div>
 							)}
 						</div>
+							</>
+						)}
 
-						<button
+						{page === 1 ? (
+							<button
 							type="submit"
 							disabled={isSubmitting}
-							className={`btn ${isSubmitting ? "loading" : ""} mt-10`}
+							className={`btn ${isSubmitting ? "loading" : ""}`}
 						>
 							Register
 						</button>
+						) : <button className="btn" onClick={() => setPage(page + 1)}>Next</button>}
 
 						{isError || isLoginError && (
 							<div className="text-error">

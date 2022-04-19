@@ -1,5 +1,6 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import Router from 'next/router';
 
 import { useAppDispatch } from '../app/hooks';
@@ -14,7 +15,7 @@ const LoginPage: NextPage = () => {
 	const dispatch = useAppDispatch();
 
 	return (
-		<div>
+		<div className='w-screen h-screen flex items-center justify-center'>
 			<Formik
 				initialValues={{ username: "", password: "" }}
 				validationSchema={LoginSchema}
@@ -36,7 +37,7 @@ const LoginPage: NextPage = () => {
 				}}
 			>
 				{({ isSubmitting, errors, touched }) => (
-					<Form className="w-1/6 h-1/3 flex justify-evenly items-center flex-col">
+					<Form className="w-1/5 h-1/2 flex justify-evenly items-center flex-col">
 						<h1 className="text-4xl">Login</h1>
 
 						<div className="w-full">
@@ -44,6 +45,7 @@ const LoginPage: NextPage = () => {
 								type="text"
 								name="username"
 								className="input input-bordered w-full"
+								placeholder="username"
 							/>
 							{errors.username && touched.username && (
 								<div className="text-error">{errors.username}</div>
@@ -55,6 +57,7 @@ const LoginPage: NextPage = () => {
 								type="password"
 								name="password"
 								className="input input-bordered w-full"
+								placeholder="password"
 							/>
 							{errors.password && touched.password && (
 								<div className="text-error">{errors.password}</div>
@@ -68,6 +71,10 @@ const LoginPage: NextPage = () => {
 						>
 							Login
 						</button>
+
+						<div>
+							<p>need an account? <Link href={'/register'}><span className='link text-primary'>register.</span></Link></p>
+						</div>
 
 						{isError && (
 							<div className="text-error">
