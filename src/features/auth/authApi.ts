@@ -14,7 +14,24 @@ export const authApi = createApi({
 				body: loginReq,
 			}),
 		}),
+		logout: builder.mutation({
+			query: () => ({
+				url: "/logout",
+				method: "POST",
+			}),
+		}),
+		isAuh: builder.query<void, boolean>({
+			query: () => ({
+				url: "/",
+				method: "GET",
+			}),
+		}),
 	}),
 });
 
-export const { useLoginMutation } = authApi;
+export const {
+	useLoginMutation,
+	useIsAuhQuery,
+	useLazyIsAuhQuery,
+	useLogoutMutation,
+} = authApi;
