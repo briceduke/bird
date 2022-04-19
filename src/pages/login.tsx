@@ -1,31 +1,17 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { NextPage } from 'next';
 import Router from 'next/router';
-import { useState } from 'react';
-import * as Yup from 'yup';
 
 import { useAppDispatch } from '../app/hooks';
 import { useLoginMutation } from '../features/auth/authApi';
 import { setAuth } from '../features/auth/authSlice';
 import { LoginPayload } from '../features/auth/dto/login-payload.dto';
-import { User } from '../models/User';
-
-const LoginSchema = Yup.object().shape({
-	username: Yup.string()
-		.min(3, "3 character minimum length")
-		.max(16, "16 character maximum length")
-		.required("required"),
-	password: Yup.string()
-		.min(8, "8 character minimum length")
-		.required("required"),
-});
+import { LoginSchema } from '../models/schemas/login.schema';
 
 const LoginPage: NextPage = () => {
-	const [login] = useLoginMutation();
+	const [login, { data, error, isError, isSuccess }] = useLoginMutation();
 
 	const dispatch = useAppDispatch();
-
-	const [serverError, setServerError] = useState("");
 
 	return (
 		<div>
@@ -37,18 +23,10 @@ const LoginPage: NextPage = () => {
 					{ setSubmitting }: FormikHelpers<LoginPayload>
 				) => {
 					setTimeout(async () => {
-						const res = (await login(values)) as {
-							data?: User;
-							error: { originalStatus: number; message: string; error: string };
-						};
+						await login(values)
 
-						if (res.error && res.error.originalStatus !== 500)
-							setServerError("invalid credentials!");
-						if (res.error && res.error.originalStatus === 500)
-							setServerError("something went wrong, please try again later!");
-
-						if (res.data) {
-							dispatch(setAuth({ user: res.data }));
+						if (isSuccess) {
+							dispatch(setAuth({ user: data }));
 
 							Router.push("/home");
 						}
@@ -67,9 +45,9 @@ const LoginPage: NextPage = () => {
 								name="username"
 								className="input input-bordered w-full"
 							/>
-							{errors.username && touched.username ? (
+							{errors.username && touched.username && (
 								<div className="text-error">{errors.username}</div>
-							) : null}
+							)}
 						</div>
 
 						<div className="w-full">
@@ -78,9 +56,9 @@ const LoginPage: NextPage = () => {
 								name="password"
 								className="input input-bordered w-full"
 							/>
-							{errors.password && touched.password ? (
+							{errors.password && touched.password && (
 								<div className="text-error">{errors.password}</div>
-							) : null}
+							)}
 						</div>
 
 						<button
@@ -91,9 +69,9 @@ const LoginPage: NextPage = () => {
 							Login
 						</button>
 
-						{serverError && (
+						{isError && (
 							<div className="text-error">
-								<p>{serverError}</p>
+								<p>{error}</p>
 							</div>
 						)}
 					</Form>
