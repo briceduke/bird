@@ -50,7 +50,7 @@ const LoginPage: NextPage = () => {
 						if (res.data) {
 							dispatch(setAuth({ user: res.data }));
 
-							Router.push("/");
+							Router.push("/home");
 						}
 
 						setSubmitting(false);

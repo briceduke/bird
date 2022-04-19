@@ -24,7 +24,7 @@ export const Layout = ({ children }: DefaultLayoutProps) => {
 				};
 
 				if (res.error && res.error.data.statusCode === 401) {
-					Router.push("/login");
+					Router.push("/");
 				}
 
 				if (res.data) dispatch(setAuth({ user: res.data }));

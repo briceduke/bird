@@ -1,44 +1,36 @@
-import moment from 'moment';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import Router from 'next/router';
 import { useEffect } from 'react';
 
 import { useAppSelector } from '../app/hooks';
-import { Layout } from '../components/layouts/DefaultLayout';
 
 const IndexPage: NextPage = () => {
 	const { user } = useAppSelector((state) => state.auth);
 
+	useEffect(() => {
+		if (user) Router.push("/home");
+	});
+
 	return (
-		<Layout>
-			<>
-				{!user && (
-					<>
-						<Link href="/login">
-							<button className="btn">Login</button>
-						</Link>
+		<div className="h-screen w-screen flex items-center justify-center">
+			<div className="w-1/3 h-1/2 flex flex-col items-center justify-evenly">
+				<h1 className="text-5xl font-black">sup</h1>
 
-						<Link href="/register">
-							<button className="btn">Register</button>
-						</Link>
-					</>
-				)}
+				<Link href={"/login"}>
+					<button className="btn btn-wide btn-primary">Sign In</button>
+				</Link>
 
-				{user && (
-					<div className="w-1/2 h-1/2">
-						{/* <Image src={user.avatarUri} alt="Avatar URI" width={60} height={60} /> */}
-						<h2 className="text-5xl text-primary">{user.displayName}</h2>
-						<h1 className="text-2xl text-secondary">@{user.username}</h1>
-						<p>{user.bio}</p>
-						<p>Joined {moment(user.joinDate).format("MMMM YYYY")}</p>
-						<p>
-							{user.birth &&
-								`Born ${moment(user.birth).format("MMMM DD, YYYY")}`}
-						</p>
-					</div>
-				)}
-			</>
-		</Layout>
+				<div className="text-center">
+					<p className="mb-2">already have an account?</p>
+					<Link href={"/register"}>
+						<button className="btn btn-wide btn-outline btn-secondary">
+							Sign Up
+						</button>
+					</Link>
+				</div>
+			</div>
+		</div>
 	);
 };
 

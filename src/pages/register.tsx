@@ -121,7 +121,7 @@ const RegisterPage: NextPage = () => {
 							if (loginRes.data) {
 								dispatch(setAuth({ user: loginRes.data }));
 
-								Router.push("/");
+								Router.push("/home");
 							}
 						}
 
