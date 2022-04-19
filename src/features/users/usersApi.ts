@@ -26,6 +26,12 @@ export const usersApi = createApi({
 				body: updateReq,
 			}),
 		}),
+		getMe: builder.query<User, void>({
+			query: () => ({
+				url: "/me",
+				method: "GET",
+			}),
+		}),
 		getUser: builder.query<User, GetUserByUsernameDto>({
 			query: (getUserReq) => ({
 				url: "/username",
@@ -64,4 +70,17 @@ export const usersApi = createApi({
 	}),
 });
 
-export const { useRegisterMutation, useLazyGetUserQuery } = usersApi;
+export const {
+	useRegisterMutation,
+	useLazyGetUserQuery,
+	useFollowUserMutation,
+	useGetMeQuery,
+	useGetUserByIdQuery,
+	useGetUserQuery,
+	useGetUsersByIdQuery,
+	useLazyGetMeQuery,
+	useLazyGetUserByIdQuery,
+	useLazyGetUsersByIdQuery,
+	useUnfollowUserMutation,
+	useUpdateUserMutation,
+} = usersApi;
