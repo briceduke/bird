@@ -1,12 +1,20 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
+import { authApi } from '../features/auth/authApi';
 import authReducer from '../features/auth/authSlice';
+import { usersApi } from '../features/users/usersApi';
 
 export function makeStore() {
 	return configureStore({
 		reducer: {
 			auth: authReducer,
+			[authApi.reducerPath]: authApi.reducer,
+			[usersApi.reducerPath]: usersApi.reducer,
 		},
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware()
+				.concat(authApi.middleware)
+				.concat(usersApi.middleware),
 	});
 }
 

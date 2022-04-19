@@ -39,10 +39,13 @@ const LoginPage: NextPage = () => {
 					setTimeout(async () => {
 						const res = (await login(values)) as {
 							data?: User;
-							error: { statusCode: number; message: string; error: string };
+							error: { originalStatus: number; message: string; error: string };
 						};
 
-						if (res.error) setServerError("invalid credentials!");
+						if (res.error && res.error.originalStatus !== 500)
+							setServerError("invalid credentials!");
+						if (res.error && res.error.originalStatus === 500)
+							setServerError("something went wrong, please try again later!");
 
 						if (res.data) {
 							dispatch(setAuth({ user: res.data }));
