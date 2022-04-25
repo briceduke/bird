@@ -10,12 +10,12 @@ import { LoginPayload } from '../features/auth/dto/login-payload.dto';
 import { LoginSchema } from '../models/schemas/login.schema';
 
 const LoginPage: NextPage = () => {
-	const [login, { data, error, isError, isSuccess }] = useLoginMutation();
+	const [login, { isError }] = useLoginMutation();
 
 	const dispatch = useAppDispatch();
 
 	return (
-		<div className='w-screen h-screen flex items-center justify-center'>
+		<div className="w-screen h-screen flex items-center justify-center">
 			<Formik
 				initialValues={{ username: "", password: "" }}
 				validationSchema={LoginSchema}
@@ -23,17 +23,21 @@ const LoginPage: NextPage = () => {
 					values: LoginPayload,
 					{ setSubmitting }: FormikHelpers<LoginPayload>
 				) => {
-					setTimeout(async () => {
-						await login(values)
+					const handleLogin = async () => {
+						const user = await login(values)
+							.unwrap()
+							.catch(() => {});
 
-						if (isSuccess) {
-							dispatch(setAuth({ user: data }));
+						if (user) {
+							dispatch(setAuth({ user }));
 
 							Router.push("/home");
 						}
 
 						setSubmitting(false);
-					}, 1000);
+					};
+
+					handleLogin();
 				}}
 			>
 				{({ isSubmitting, errors, touched }) => (
@@ -73,12 +77,17 @@ const LoginPage: NextPage = () => {
 						</button>
 
 						<div>
-							<p>need an account? <Link href={'/register'}><span className='link text-primary'>register.</span></Link></p>
+							<p>
+								need an account?{" "}
+								<Link href={"/register"}>
+									<span className="link text-primary">register.</span>
+								</Link>
+							</p>
 						</div>
 
 						{isError && (
 							<div className="text-error">
-								<p>{error}</p>
+								<p>Invalid credentials!</p>
 							</div>
 						)}
 					</Form>

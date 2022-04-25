@@ -3,36 +3,30 @@ import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { setAuth } from '../../../features/auth/authSlice';
-import { useLazyGetMeQuery } from '../../../features/users/usersApi';
-import { User } from '../../../models/User';
+import { useGetMeQuery } from '../../../features/users/usersApi';
 import { DefaultLayoutProps } from './default-layout.props';
 
-export const Layout = ({ children }: DefaultLayoutProps) => {
+export const Layout = ({
+	children,
+	protectedRoute = false,
+}: DefaultLayoutProps) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
 
-	const [me] = useLazyGetMeQuery();
+	const { data, error, isFetching } = useGetMeQuery();
 
 	useEffect(() => {
-		const checkAuth = async () => {
-			if (!user) {
-				const res = (await me()) as {
-					data?: User;
-					error: {
-						data: { error: string; message: string; statusCode: number };
-					};
-				};
+		if (data) dispatch(setAuth({ user: data }));
 
-				if (res.error && res.error.data.statusCode === 401) {
-					Router.push("/");
-				}
+		if (error) Router.push("/");
+	}, [isFetching]);
 
-				if (res.data) dispatch(setAuth({ user: res.data }));
-			}
-		};
-
-		checkAuth();
-	}, [user]);
+	if (protectedRoute && !user)
+		return (
+			<div className="w-screen h-screen flex items-center justify-center">
+				loading
+			</div>
+		);
 
 	return (
 		<div className="w-screen h-screen flex items-center justify-center">
