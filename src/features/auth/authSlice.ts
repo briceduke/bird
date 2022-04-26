@@ -5,7 +5,7 @@ import { User } from '../../models/User';
 
 interface AuthState {
 	user?: User;
-	showModal: boolean;
+	showModal?: boolean;
 }
 
 const initialState: AuthState = {
