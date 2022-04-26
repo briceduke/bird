@@ -5,7 +5,11 @@ import { useGetUserQuery } from '../features/users/usersApi';
 
 const HomePage: NextPage = () => {
 	const { data } = useGetUserQuery({ username: "brice" });
-	return <Layout>{data && <div>{data.joinDate}</div>}</Layout>;
+	return (
+		<Layout>
+			<div>{data && <div>{data.joinDate}</div>}</div>
+		</Layout>
+	);
 };
 
 export default HomePage;

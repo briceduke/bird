@@ -1,4 +1,6 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { createWrapper } from 'next-redux-wrapper';
 
 import { authApi } from '../features/auth/authApi';
 import authReducer from '../features/auth/authSlice';
@@ -21,6 +23,9 @@ export function makeStore() {
 }
 
 const store = makeStore();
+setupListeners(store.dispatch);
+
+export type AppStore = ReturnType<typeof makeStore>;
 
 export type AppState = ReturnType<typeof store.getState>;
 
@@ -32,5 +37,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 	unknown,
 	Action<string>
 >;
+
+export const wrapper = createWrapper<AppStore>(makeStore);
 
 export default store;
