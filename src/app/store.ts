@@ -2,12 +2,14 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 import { authApi } from '../features/auth/authApi';
 import authReducer from '../features/auth/authSlice';
+import registerFormReducer from '../features/users/registerFormSlice';
 import { usersApi } from '../features/users/usersApi';
 
 export function makeStore() {
 	return configureStore({
 		reducer: {
 			auth: authReducer,
+			registerForm: registerFormReducer,
 			[authApi.reducerPath]: authApi.reducer,
 			[usersApi.reducerPath]: usersApi.reducer,
 		},
