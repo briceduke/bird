@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { User } from '../../models/User';
@@ -35,23 +34,20 @@ export const usersApi = createApi({
 		}),
 		getUser: builder.query<User, GetUserByUsernameDto>({
 			query: (getUserReq) => ({
-				url: "/username",
+				url: `/username?username=${getUserReq.username}`,
 				method: "GET",
-				body: getUserReq,
 			}),
 		}),
 		getUserById: builder.query<User, GetUserByIdDto>({
 			query: (getUserReq) => ({
-				url: "/",
+				url: `/?_id=${getUserReq._id}`,
 				method: "GET",
-				body: getUserReq,
 			}),
 		}),
 		getUsersById: builder.query<User[], GetUsersByIdDto>({
 			query: (getUsersReq) => ({
-				url: "/many",
+				url: `/many?_id=${getUsersReq._id.join()}`,
 				method: "GET",
-				body: getUsersReq,
 			}),
 		}),
 		followUser: builder.mutation<User, FollowUserDto>({
