@@ -5,9 +5,12 @@ import { User } from '../../models/User';
 
 interface AuthState {
 	user?: User;
+	showModal: boolean;
 }
 
-const initialState: AuthState = {};
+const initialState: AuthState = {
+	showModal: false
+};
 
 const authSlice = createSlice({
 	name: "auth",
@@ -18,10 +21,15 @@ const authSlice = createSlice({
 				state.user = payload.payload.user;
 			}
 		},
+		toggleModal: (state) => {
+			{
+				state.showModal = !state.showModal;
+			}
+		}
 	},
 });
 
-export const { setAuth } = authSlice.actions;
+export const { setAuth, toggleModal } = authSlice.actions;
 
 export default authSlice.reducer;
 

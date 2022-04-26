@@ -14,6 +14,7 @@ class MyDocument extends Document {
         <body data-theme="night">
           <Main />
           <NextScript />
+          <div id="modal-root"></div>
         </body>
       </Html>
     )
