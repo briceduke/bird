@@ -173,7 +173,7 @@ export const ProfileStep = () => {
 			</Formik>
 			{(isError || isLoginError) && (
 				<div className="text-error">
-					<p>{(error as any).data.message}</p>
+					<p>{(error as any).data && (error as any).data.message ? (error as any).data.message : JSON.stringify(error)}</p>
 					<p>{loginError}</p>
 				</div>
 			)}
