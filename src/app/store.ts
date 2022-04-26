@@ -4,6 +4,7 @@ import { createWrapper } from 'next-redux-wrapper';
 
 import { authApi } from '../features/auth/authApi';
 import authReducer from '../features/auth/authSlice';
+import { chirpsApi } from '../features/chirps/chirpsApi';
 import registerFormReducer from '../features/users/registerFormSlice';
 import { usersApi } from '../features/users/usersApi';
 
@@ -14,11 +15,13 @@ export function makeStore() {
 			registerForm: registerFormReducer,
 			[authApi.reducerPath]: authApi.reducer,
 			[usersApi.reducerPath]: usersApi.reducer,
+			[chirpsApi.reducerPath]: chirpsApi.reducer,
 		},
 		middleware: (getDefaultMiddleware) =>
 			getDefaultMiddleware()
 				.concat(authApi.middleware)
-				.concat(usersApi.middleware),
+				.concat(usersApi.middleware)
+				.concat(chirpsApi.middleware),
 	});
 }
 

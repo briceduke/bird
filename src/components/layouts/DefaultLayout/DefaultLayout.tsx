@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { setAuth } from '../../../features/auth/authSlice';
 import { useGetMeQuery } from '../../../features/users/usersApi';
+import { LeftSideBar } from '../../sidebars/LeftSideBar';
+import { RightSideBar } from '../../sidebars/RightSideBar';
 import { DefaultLayoutProps } from './default-layout.props';
 
 export const Layout = ({
@@ -29,8 +31,10 @@ export const Layout = ({
 		);
 
 	return (
-		<div className="w-screen h-screen flex items-center justify-center">
-			{children}
+		<div className="w-screen h-screen flex justify-center">
+			<LeftSideBar />
+			<div className="w-1/2 overflow-y-scroll">{children}</div>
+			<RightSideBar />
 		</div>
 	);
 };

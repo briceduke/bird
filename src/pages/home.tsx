@@ -15,14 +15,17 @@ const HomePage: NextPage = () => {
 
 	return (
 		<Layout>
-			<div>
-				{data && <div>{data.joinDate}</div>}
-				<button onClick={handleToggleModal} className="btn btn-primary">
-					Modal
-				</button>
-				<CreateChirpModal>
-					<div>hi</div>
-				</CreateChirpModal>
+			<div className="p-4">
+				<div className="h-screen"></div>
+				<div className="h-screen">
+					{data && <div>{data.joinDate}</div>}
+					<button onClick={handleToggleModal} className="btn btn-primary">
+						Modal
+					</button>
+					<CreateChirpModal>
+						<div className="w-1/2 h-1/2 bg-base-100 z-50">hi</div>
+					</CreateChirpModal>
+				</div>
 			</div>
 		</Layout>
 	);
