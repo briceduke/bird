@@ -14,7 +14,7 @@ const HomePage: NextPage = () => {
 	const handleToggleModal = () => dispatch(toggleModal());
 
 	return (
-		<Layout title="Latest Chirps | Chirper">
+		<Layout title="Latest Chirps">
 			<div className="p-4">
 				<div className="h-screen"></div>
 				<div className="h-screen">

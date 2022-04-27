@@ -35,7 +35,7 @@ export const Layout = ({
 	return (
 		<div className="w-screen h-screen flex justify-center">
 			<Head>
-				<title>{title}</title>
+				<title>{title} | Chirper</title>
 			</Head>
 			<LeftSideBar />
 			<div className="w-1/2 overflow-y-scroll">{children}</div>

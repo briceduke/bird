@@ -1,11 +1,14 @@
 import moment from 'moment';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { GoVerified } from 'react-icons/go';
+import { MdDateRange, MdOutlineCake, MdOutlineLocationOn } from 'react-icons/md';
 
-import { useAppSelector } from '../app/hooks';
-import { wrapper } from '../app/store';
-import { Layout } from '../components/layouts/DefaultLayout';
-import { useFollowUserMutation, useGetUserQuery, useUnfollowUserMutation } from '../features/users/usersApi';
-import { User } from '../models/User';
+import { useAppSelector } from '../../app/hooks';
+import { wrapper } from '../../app/store';
+import { Layout } from '../../components/layouts/DefaultLayout';
+import { useFollowUserMutation, useGetUserQuery, useUnfollowUserMutation } from '../../features/users/usersApi';
+import { User } from '../../models/User';
 
 interface ProfileProps {
 	user: User;
@@ -30,10 +33,18 @@ const ProfilePage = ({ username }: ProfileProps) => {
 
 	const handleFollowClick = async () => {
 		if (isFollowing) {
-			await unfollow({ _id: data._id });
+			try {
+				await unfollow({ _id: data._id }).unwrap();
+			} catch (err) {
+				return;
+			}
 			setIsFollowing(false);
 		} else {
-			await follow({ _id: data._id });
+			try {
+				await follow({ _id: data._id }).unwrap();
+			} catch (err) {
+				return;
+			}
 			setIsFollowing(true);
 		}
 		refetch();
@@ -60,39 +71,58 @@ const ProfilePage = ({ username }: ProfileProps) => {
 
 								{/* Actions */}
 								<div>
-									<button className="btn" onClick={handleFollowClick}>
-										{isFollowing ? "Following" : "Follow"}
-									</button>
+									{user && data._id !== user._id && (
+										<button className="btn" onClick={handleFollowClick}>
+											{isFollowing ? "Following" : "Follow"}
+										</button>
+									)}
 								</div>
 							</div>
 
 							{/* Info */}
 							<div className="w-full h-1/2 flex flex-col items-start justify-evenly">
 								<div>
-									<div className="text-white font-bold text-2xl">
-										{data.displayName}
+									<div className="text-white font-bold text-2xl flex items-center gap-2">
+										{data.displayName}{" "}
+										<span>{data.isVerified && <GoVerified />}</span>
 									</div>
 									<div className="">@{data.username}</div>
 								</div>
 								<div className="text-white">{data.bio}</div>
 								<div className="flex w-1/2 items-center justify-between">
-									<div>{data.location}</div>
-									<div>Born {moment(data.birth).format("MMM DD YYYY")}</div>
-									<div>Joined {moment(data.joinDate).format("MMMM YYYY")}</div>
+									{data.location && (
+										<div className="flex items-center gap-1">
+											<MdOutlineLocationOn /> {data.location}
+										</div>
+									)}
+									{data.birth && (
+										<div className="flex items-center gap-1">
+											<MdOutlineCake /> Born{" "}
+											{moment(data.birth).format("MMM DD YYYY")}
+										</div>
+									)}
+									<div className="flex items-center gap-1">
+										<MdDateRange /> Joined{" "}
+										{moment(data.joinDate).format("MMMM YYYY")}
+									</div>
 								</div>
 								<div className="flex w-1/4 items-center justify-between">
-									<div>
-										<span className="text-white font-bold">
-											{data.followingCount}
-										</span>{" "}
-										Following
-									</div>
-									<div>
-										<span className="text-white font-bold">
-											{data.followersCount}
-										</span>{" "}
-										Followers
-									</div>
+									<Link href={`/${username}/following`}>
+										<div className="link-hover hover:cursor-pointer">
+											<span className="text-white font-bold">
+												{data.followingCount}
+											</span>{" "}
+											Following
+										</div>
+									</Link>
+									<Link href={`/${username}/followers`}>
+										<div className="link-hover hover:cursor-pointer">
+											<span className="text-white font-bold">
+												{data.followersCount}
+											</span>{" "}
+											Followers
+										</div>
+									</Link>
 								</div>
 							</div>
 						</div>
