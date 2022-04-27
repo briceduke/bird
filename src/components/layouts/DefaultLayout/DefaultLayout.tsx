@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Router from 'next/router';
 import { useEffect } from 'react';
 
@@ -11,6 +12,7 @@ import { DefaultLayoutProps } from './default-layout.props';
 export const Layout = ({
 	children,
 	protectedRoute = false,
+	title,
 }: DefaultLayoutProps) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
@@ -32,6 +34,9 @@ export const Layout = ({
 
 	return (
 		<div className="w-screen h-screen flex justify-center">
+			<Head>
+				<title>{title}</title>
+			</Head>
 			<LeftSideBar />
 			<div className="w-1/2 overflow-y-scroll">{children}</div>
 			<RightSideBar />

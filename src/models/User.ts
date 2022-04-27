@@ -1,4 +1,6 @@
 export interface User {
+	_id: string;
+
 	username: string;
 
 	followersId: string[];
@@ -20,4 +22,10 @@ export interface User {
 	displayName?: string;
 
 	avatarUri?: string;
+
+	chirpsCount: number;
+
+	followersCount: number;
+
+	followingCount: number;
 }
