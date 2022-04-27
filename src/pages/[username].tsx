@@ -23,10 +23,10 @@ const ProfilePage = ({ username }: ProfileProps) => {
 	const [isFollowing, setIsFollowing] = useState(false);
 
 	useEffect(() => {
-		if (!data) return;
+		if (!data || !user) return;
 
 		data.followersId.includes(user._id) ? setIsFollowing(true) : null;
-	}, [data]);
+	}, [data, user]);
 
 	const handleFollowClick = async () => {
 		if (isFollowing) {
