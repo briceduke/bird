@@ -11,6 +11,7 @@ const initialState: FormState = {
 	data: {
 		username: "",
 		password: "",
+		inviteCode: "",
 		avatarUri: "",
 		bio: "",
 		birth: null,

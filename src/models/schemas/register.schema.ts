@@ -17,6 +17,10 @@ export const RegisterSchema = Yup.object().shape({
 		.min(4, "4 character minimum length")
 		.max(50, "50 character maximum length")
 		.required("display name is required"),
+	inviteCode: Yup.string()
+		.min(8, "8 character length")
+		.max(8, "8 character length")
+		.required("invite code is required"),
 	bio: Yup.string()
 		.min(3, "3 character minimum length")
 		.max(160, "160 character maximum length")

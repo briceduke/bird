@@ -9,6 +9,8 @@ export interface User {
 
 	isVerified: boolean;
 
+	isAdmin: boolean;
+
 	bio?: string;
 
 	website?: string;

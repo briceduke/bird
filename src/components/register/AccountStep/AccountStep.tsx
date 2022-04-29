@@ -48,6 +48,18 @@ export const AccountStep = () => {
 							)}
 						</div>
 
+						<div className="w-full">
+							<Field
+								type="inviteCode"
+								name="inviteCode"
+								className="input input-bordered w-full"
+								placeholder="invite code"
+							/>
+							{errors.inviteCode && touched.inviteCode && (
+								<div className="text-error">{errors.inviteCode}</div>
+							)}
+						</div>
+
 						<button
 							type="submit"
 							disabled={isSubmitting}

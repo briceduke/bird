@@ -5,6 +5,8 @@ export interface RegisterPayload {
 
 	displayName?: string;
 
+	inviteCode?: string;
+
 	bio?: string;
 
 	website?: string;

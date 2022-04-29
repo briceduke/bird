@@ -1,5 +1,11 @@
 export interface Chirp {
+	_id: string
+	
     userId: string;
+
+	userAvatarUri: string;
+
+	userUsername: string;
 
 	content: string;
 

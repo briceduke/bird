@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { Chirp } from '../../models/Chirp';
-import { CreateChirpDto } from './dto/create-chirp-payload.dto';
+import { CreateChirpPayload } from './dto/create-chirp-payload.dto';
 import { GetChirpDto } from './dto/get-chirp.dto';
 import { GetChirpsDto } from './dto/get-chirps.dto';
 import { GetHomeTimelineDto } from './dto/get-home-timeline.dto';
@@ -31,17 +31,17 @@ export const chirpsApi = createApi({
 		}),
 		getUserTimeline: builder.query<Chirp[], GetUserTimelineDto>({
 			query: (getReq) => ({
-				url: `/timeline/user?userId=${getReq.userId}?skip=${getReq.skip}?limit=${getReq.limit}`,
+				url: `/timeline/user?userId=${getReq.userId}&skip=${getReq.skip}&limit=${getReq.limit}`,
 				method: "GET",
 			}),
 		}),
 		getHomeTimeline: builder.query<Chirp[], GetHomeTimelineDto>({
 			query: (getReq) => ({
-				url: `/timeline/home?skip=${getReq.skip}?limit=${getReq.limit}`,
+				url: `/timeline/home?skip=${getReq.skip}&limit=${getReq.limit}`,
 				method: "GET",
 			}),
 		}),
-		create: builder.mutation<Chirp, CreateChirpDto>({
+		create: builder.mutation<Chirp, CreateChirpPayload>({
 			query: (createReq) => ({
 				url: "/",
 				method: "POST",
@@ -69,4 +69,14 @@ export const {
 	useCreateMutation,
 	useDeleteMutation,
 	useLikeMutation,
+	useGetHomeTimelineQuery,
+	useGetManyQuery,
+	useGetQuery,
+	useGetRepliesQuery,
+	useGetUserTimelineQuery,
+	useLazyGetHomeTimelineQuery,
+	useLazyGetManyQuery,
+	useLazyGetQuery,
+	useLazyGetRepliesQuery,
+	useLazyGetUserTimelineQuery
 } = chirpsApi;
