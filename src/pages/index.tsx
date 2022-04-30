@@ -14,11 +14,11 @@ const IndexPage: NextPage = () => {
 			<div className="h-screen w-screen flex items-center justify-center">
 				<div className="w-1/3 h-1/2 flex flex-col items-center justify-evenly">
 					<h1 className="text-5xl font-black">sup</h1>
-	
+
 					<Link href={"/login"}>
 						<button className="btn btn-wide btn-primary">Sign In</button>
 					</Link>
-	
+
 					<div className="text-center">
 						<p className="mb-2">already have an account?</p>
 						<Link href={"/register"}>

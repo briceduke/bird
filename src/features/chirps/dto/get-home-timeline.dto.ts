@@ -1,5 +1,5 @@
 export interface GetHomeTimelineDto {
-    skip: number;
+	skip: number;
 
-    limit: number;
+	limit: number;
 }

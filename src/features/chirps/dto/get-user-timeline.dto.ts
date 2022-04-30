@@ -1,7 +1,7 @@
 export interface GetUserTimelineDto {
-    userId: string;
+	userId: string;
 
-    skip: number;
+	skip: number;
 
-    limit: number;
+	limit: number;
 }

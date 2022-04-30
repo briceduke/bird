@@ -59,7 +59,7 @@ export const chirpsApi = createApi({
 			query: (likeReq) => ({
 				url: "/",
 				method: "PATCH",
-				body: likeReq
+				body: likeReq,
 			}),
 		}),
 	}),
@@ -78,5 +78,5 @@ export const {
 	useLazyGetManyQuery,
 	useLazyGetQuery,
 	useLazyGetRepliesQuery,
-	useLazyGetUserTimelineQuery
+	useLazyGetUserTimelineQuery,
 } = chirpsApi;

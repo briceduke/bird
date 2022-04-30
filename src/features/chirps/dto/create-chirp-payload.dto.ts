@@ -1,5 +1,5 @@
 export interface CreateChirpPayload {
-    content: string;
+	content: string;
 
-    subjectChirpId?: string;
+	subjectChirpId?: string;
 }

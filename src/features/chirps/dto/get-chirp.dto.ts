@@ -1,3 +1,3 @@
 export interface GetChirpDto {
-    _id: string;
+	_id: string;
 }
