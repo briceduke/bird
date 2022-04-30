@@ -7,6 +7,7 @@ import { MdDateRange, MdOutlineCake, MdOutlineLocationOn } from 'react-icons/md'
 import { useAppSelector } from '../../app/hooks';
 import { wrapper } from '../../app/store';
 import { Layout } from '../../components/layouts/DefaultLayout';
+import { useLazyGetUserTimelineQuery } from '../../features/chirps/chirpsApi';
 import { useFollowUserMutation, useGetUserQuery, useUnfollowUserMutation } from '../../features/users/usersApi';
 import { User } from '../../models/User';
 
@@ -20,6 +21,8 @@ const ProfilePage = ({ username }: ProfileProps) => {
 	const { user } = useAppSelector((state) => state.auth);
 
 	const { data, refetch } = useGetUserQuery({ username });
+	const [getTimeline, { data: timelineData, error }] =
+		useLazyGetUserTimelineQuery();
 	const [follow] = useFollowUserMutation();
 	const [unfollow] = useUnfollowUserMutation();
 
@@ -29,6 +32,12 @@ const ProfilePage = ({ username }: ProfileProps) => {
 		if (!data || !user) return;
 
 		data.followersId.includes(user._id) ? setIsFollowing(true) : null;
+
+		const timeline = async () => {
+			await getTimeline({ limit: 20, skip: 0, userId: data._id });
+		};
+
+		timeline();
 	}, [data, user]);
 
 	const handleFollowClick = async () => {
@@ -57,7 +66,7 @@ const ProfilePage = ({ username }: ProfileProps) => {
 					protectedRoute
 					title={`${data.displayName} (@${data.username})`}
 				>
-					<div className="p-10 h-screen">
+					<div className="p-10 h-full">
 						{/* Profile card */}
 						<div className="w-full h-1/2 flex flex-col justify-evenly">
 							{/* Avatar group */}
@@ -125,6 +134,59 @@ const ProfilePage = ({ username }: ProfileProps) => {
 									</Link>
 								</div>
 							</div>
+						</div>
+						<hr className="border-neutral mb-10" />
+						{/* Feed */}
+						<div className="w-4/6">
+							{timelineData &&
+								timelineData.map((chirp, idx) => {
+									return (
+										<div key={idx} className="flex w-full h-32">
+											{/* Avatar column */}
+											<div className="avatar w-1/6">
+												<div className="w-16 h-16 rounded-full">
+													<img
+														src={chirp.userAvatarUri}
+														alt={chirp.userUsername}
+													/>
+												</div>
+											</div>
+
+											{/* Content column */}
+											<div className="flex flex-col items-baseline justify-evenly w-5/6">
+												{/* Name and username */}
+												<div className="flex">
+													<p className="text-white font-bold">
+														{chirp.userUsername}
+													</p>
+												</div>
+
+												<Link href={`/chirp/${chirp._id}`}>
+													{/* Content */}
+													<div className="h-full cursor-pointer">
+														{chirp.content}
+													</div>
+												</Link>
+												{/* Actions */}
+												<div className="w-full flex items-center z-10">
+													<button className={`btn w-24 mr-4`}>
+														{chirp.subChirpCount} Replies
+													</button>
+
+													<button
+														className={`btn w-24 btn-${
+															chirp.likedUserIds.includes(data._id)
+																? "primary"
+																: ""
+														}`}
+													>
+														{chirp.likeCount} Likes
+													</button>
+												</div>
+											</div>
+										</div>
+									);
+								})}
 						</div>
 					</div>
 				</Layout>

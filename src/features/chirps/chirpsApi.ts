@@ -57,8 +57,8 @@ export const chirpsApi = createApi({
 		}),
 		like: builder.mutation<Chirp, GetChirpDto>({
 			query: (likeReq) => ({
-				url: "/",
-				method: "PATCH",
+				url: "/like",
+				method: "POST",
 				body: likeReq,
 			}),
 		}),

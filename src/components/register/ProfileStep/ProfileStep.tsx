@@ -39,9 +39,10 @@ export const ProfileStep = () => {
 							fmtDate = splitDate[2] + "-" + splitDate[0] + "-" + splitDate[1];
 						}
 
-						Object.keys(values).forEach(
-							(v) => (values[v] = values[v] === "" ? null : values[v])
-						);
+						if (values.bio === "") values.bio = null;
+						if (values.website === "") values.website = null;
+						if (values.location === "") values.location = null;
+						if (values.avatarUri === "") values.avatarUri = null;
 
 						const user = await register({
 							...values,
@@ -173,7 +174,11 @@ export const ProfileStep = () => {
 			</Formik>
 			{(isError || isLoginError) && (
 				<div className="text-error">
-					<p>{(error as any).data && (error as any).data.message ? (error as any).data.message : JSON.stringify(error)}</p>
+					<p>
+						{(error as any).data && (error as any).data.message
+							? (error as any).data.message
+							: JSON.stringify(error)}
+					</p>
 					<p>{loginError}</p>
 				</div>
 			)}
